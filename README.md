@@ -1,4 +1,4 @@
-# Talend Open Studio for ESB
+# Talend Open Studio for ESB (Scala Impl, on process)
 http://www.talend.com
 
 
