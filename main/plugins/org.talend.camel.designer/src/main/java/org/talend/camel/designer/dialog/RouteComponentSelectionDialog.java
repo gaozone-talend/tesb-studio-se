@@ -81,7 +81,7 @@ public class RouteComponentSelectionDialog extends Dialog {
 
     static class ConnectionFactoryLabelProvider extends LabelProvider {
 
-        static final Image image = CamelDesignerPlugin.imageDescriptorFromPlugin(CamelDesignerPlugin.PLUGIN_ID,
+        static final Image image = CamelDesignerPlugin.imageDescriptorFromPlugin(CamelDesignerPlugin.PLUGIN_ID(),
                 "icons/routes_icon.png").createImage();
 
         @Override
