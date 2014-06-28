@@ -84,7 +84,7 @@ public class JMSDialog extends Dialog {
 
     static class ConnectionFactoryLabelProvider extends LabelProvider {
 
-        static final Image image = CamelDesignerPlugin.imageDescriptorFromPlugin(CamelDesignerPlugin.PLUGIN_ID,
+        static final Image image = CamelDesignerPlugin.imageDescriptorFromPlugin(CamelDesignerPlugin.PLUGIN_ID(),
                 "icons/cJMSConnectionFactory_16.png").createImage();
 
         @Override
