@@ -25,8 +25,7 @@ Require-Bundle: org.apache.commons.collections,
  org.talend.resources,
  org.talend.designer.publish.core,
  org.talend.libraries.dom4j-jaxen,
- org.talend.repository.items.importexport,
- org.scala-lang.scala-library
+ org.talend.repository.items.importexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.talend.camel.designer.dialog,
