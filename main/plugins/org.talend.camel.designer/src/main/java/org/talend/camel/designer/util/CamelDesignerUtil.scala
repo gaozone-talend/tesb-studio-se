@@ -12,44 +12,42 @@ import org.talend.repository.utils.EmfModelUtils
 
 object CamelDesignerUtil {
 
-  var service: IJobletProviderService = null
-  if (PluginChecker.isJobLetPluginLoaded()) {
-    service = GlobalServiceRegister.getDefault().getService(classOf[IJobletProviderService])
-      .asInstanceOf[IJobletProviderService]
+	var service: IJobletProviderService = null
+	if (PluginChecker.isJobLetPluginLoaded()) {
+		service = GlobalServiceRegister.getDefault().getService(classOf[IJobletProviderService])
+			.asInstanceOf[IJobletProviderService]
+	}
 
-  }
+	def checkRouteInputExistInJob(pi: ProcessItem): Boolean = {
+		if (pi == null) false
+		val process = pi.getProcess()
+		recursiveCheckRouteInputExistInProcess(process)
+	}
 
-  def checkRouteInputExistInJob(pi: ProcessItem): Boolean = {
-    if (pi == null) false
-    val process = pi.getProcess()
-    recursiveCheckRouteInputExistInProcess(process)
-  }
+	def checkRouteInputExistInJoblet(jobletProcess: ProcessType): Boolean = {
 
-  def checkRouteInputExistInJoblet(jobletProcess: ProcessType): Boolean = {
+		recursiveCheckRouteInputExistInProcess(jobletProcess)
+	}
 
-    recursiveCheckRouteInputExistInProcess(jobletProcess)
-  }
-
-  /**
-   * Recursive check route input exist in process.
-   *
-   * @param process the process, must not null
-   * @return true, if successful
-   */
-  private def recursiveCheckRouteInputExistInProcess(process: ProcessType): Boolean = {
-    if (process == null) false
-    val nodes = process.getNode()
-    nodes.toList.exists(e => {
-      if (!e.isInstanceOf[NodeType]) false
-      var nt = e.asInstanceOf[NodeType]
-      if (!EmfModelUtils.isComponentActive(nt) && !EmfModelUtils.computeCheckElementValue("ACTIVATE", nt)) false
-      var componentName = nt.getComponentName()
-      if ("tRouteInput" == componentName) true
-      if (service != null) {
-        var process = service.getJobletProcess(nt)
-        recursiveCheckRouteInputExistInProcess(process)
-      }
-      false
-    })
-  }
+	/**
+	 * Recursive check tRouteInput exists in process.
+	 *
+	 * @return true, if exists
+	 */
+	private def recursiveCheckRouteInputExistInProcess(process: ProcessType): Boolean = {
+		if (process == null) false
+		val nodes = process.getNode()
+		nodes.toList.exists(e => {
+			if (!e.isInstanceOf[NodeType]) false
+			var nt = e.asInstanceOf[NodeType]
+			if (!EmfModelUtils.isComponentActive(nt) && !EmfModelUtils.computeCheckElementValue("ACTIVATE", nt)) false
+			var componentName = nt.getComponentName()
+			if ("tRouteInput" == componentName) true
+			if (service != null) {
+				var process = service.getJobletProcess(nt)
+				recursiveCheckRouteInputExistInProcess(process)
+			}
+			false
+		})
+	}
 }
