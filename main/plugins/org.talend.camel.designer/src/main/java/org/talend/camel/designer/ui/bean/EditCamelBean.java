@@ -55,7 +55,7 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
         super();
         this.setText(EDIT_LABEL);
         this.setToolTipText(EDIT_LABEL);
-        this.setImageDescriptor(ImageProvider.getImageDesc(ECamelCoreImage.BEAN_ICON));
+        this.setImageDescriptor(ImageProvider.getImageDesc(ECamelCoreImage.BEAN_ICON()));
     }
 
     @Override

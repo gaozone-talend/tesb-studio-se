@@ -32,7 +32,7 @@ public class CamelExtendBeansNode implements IExtendRepositoryNode {
      */
     public IImage getNodeImage() {
         // TODO Auto-generated method stub
-        return ECamelCoreImage.BEAN_ICON;
+        return ECamelCoreImage.BEAN_ICON();
     }
 
     /*

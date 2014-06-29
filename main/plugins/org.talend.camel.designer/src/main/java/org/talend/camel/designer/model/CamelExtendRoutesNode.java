@@ -31,7 +31,7 @@ public class CamelExtendRoutesNode implements IExtendRepositoryNode {
      * @see org.talend.core.repository.IExtendRepositoryNode#getNodeImage()
      */
     public IImage getNodeImage() {
-        return ECamelCoreImage.ROUTES_ICON;
+        return ECamelCoreImage.ROUTES_ICON();
     }
 
     /*

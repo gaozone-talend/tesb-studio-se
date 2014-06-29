@@ -63,7 +63,7 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         this.setText(CREATE_LABEL);
         this.setToolTipText(CREATE_LABEL);
 
-        Image folderImg = ImageProvider.getImage(ECamelCoreImage.BEAN_ICON);
+        Image folderImg = ImageProvider.getImage(ECamelCoreImage.BEAN_ICON());
         this.setImageDescriptor(OverlayImageProvider.getImageWithNew(folderImg));
     }
 

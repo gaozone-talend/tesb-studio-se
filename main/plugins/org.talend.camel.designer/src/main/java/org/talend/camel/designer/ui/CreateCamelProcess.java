@@ -75,7 +75,7 @@ public class CreateCamelProcess extends CreateProcess implements IIntroAction {
         super();
         this.setText(CREATE_LABEL);
         this.setToolTipText(CREATE_LABEL);
-        Image folderImg = ImageProvider.getImage(ECamelCoreImage.ROUTES_ICON);
+        Image folderImg = ImageProvider.getImage(ECamelCoreImage.ROUTES_ICON());
         this.setImageDescriptor(OverlayImageProvider.getImageWithNew(folderImg));
     }
 

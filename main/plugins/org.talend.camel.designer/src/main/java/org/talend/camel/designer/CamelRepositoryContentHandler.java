@@ -184,11 +184,11 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
     @Override
     public IImage getIcon(ERepositoryObjectType type) {
         if (type == CamelRepositoryNodeType.repositoryRoutesType()) {
-            return ECamelCoreImage.ROUTES_ICON;
+            return ECamelCoreImage.ROUTES_ICON();
         } else if (type == CamelRepositoryNodeType.repositoryBeansType()) {
-            return ECamelCoreImage.BEAN_ICON;
+            return ECamelCoreImage.BEAN_ICON();
         } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType()) {
-            return ECamelCoreImage.ROUTE_RESOURCE_ICON;
+            return ECamelCoreImage.ROUTE_RESOURCE_ICON();
         }
         return null;
     }
