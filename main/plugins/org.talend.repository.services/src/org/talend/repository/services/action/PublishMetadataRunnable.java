@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import javax.wsdl.Binding;
@@ -93,6 +94,7 @@ import org.talend.repository.services.ui.preferences.EsbSoapServicePreferencePag
 import org.talend.repository.services.utils.FolderNameUtil;
 import org.talend.repository.services.utils.SchemaUtil;
 import org.talend.repository.services.utils.WSDLUtils;
+
 import orgomg.cwm.resource.record.RecordFactory;
 import orgomg.cwm.resource.record.RecordFile;
 
@@ -540,13 +542,9 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
             return;
         }
 
-        Display.getDefault().syncExec(new Runnable() {
-
-            @Override
-            public void run() {
-                MetadataTable newTable = ConnectionHelper.getTables(connection).toArray(new MetadataTable[0])[0];
-                RepositoryUpdateManager.updateSingleSchema(connectionItem, newTable, oldMetaTable, oldTableMap);
-            }
+        Display.getDefault().syncExec(()->{
+            MetadataTable newTable = ConnectionHelper.getTables(connection).toArray(new MetadataTable[0])[0];
+            RepositoryUpdateManager.updateSingleSchema(connectionItem, newTable, oldMetaTable, oldTableMap);
         });
     }
 

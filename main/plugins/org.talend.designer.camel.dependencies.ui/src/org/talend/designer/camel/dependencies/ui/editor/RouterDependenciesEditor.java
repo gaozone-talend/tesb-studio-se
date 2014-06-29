@@ -187,23 +187,15 @@ public class RouterDependenciesEditor extends EditorPart implements
 		shortCuts.setText(Messages.RouterDependenciesEditor_KeyBindingw);
 		
 		// add filter listener
-		filterText.addModifyListener(new ModifyListener() {
-
-			@Override
-			public void modifyText(ModifyEvent e) {
-				Text t = (Text) e.widget;
-				final String filterString = t.getText().trim();
-				t.getDisplay().asyncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						importPackageViewer.setFilterString(filterString);
-						requireBundleViewer.setFilterString(filterString);
-						bundleClasspathViewer.setFilterString(filterString);
-						exportPackageViewer.setFilterString(filterString);
-					}
-				});
-			}
+		filterText.addModifyListener(e->{
+			Text t = (Text) e.widget;
+			final String filterString = t.getText().trim();
+			t.getDisplay().asyncExec(()->{
+				importPackageViewer.setFilterString(filterString);
+				requireBundleViewer.setFilterString(filterString);
+				bundleClasspathViewer.setFilterString(filterString);
+				exportPackageViewer.setFilterString(filterString);
+			});
 		});
 
 		// add hide listener
@@ -212,15 +204,11 @@ public class RouterDependenciesEditor extends EditorPart implements
 			public void widgetSelected(SelectionEvent e) {
 				Button b = (Button) e.widget;
 				final boolean show = b.getSelection();
-				b.getDisplay().asyncExec(new Runnable() {
-
-					@Override
-					public void run() {
-						importPackageViewer.setShowBuiltIn(!show);
-						requireBundleViewer.setShowBuiltIn(!show);
-						bundleClasspathViewer.setShowBuiltIn(!show);
-						exportPackageViewer.setShowBuiltIn(!show);
-					}
+				b.getDisplay().asyncExec(()->{
+					importPackageViewer.setShowBuiltIn(!show);
+					requireBundleViewer.setShowBuiltIn(!show);
+					bundleClasspathViewer.setShowBuiltIn(!show);
+					exportPackageViewer.setShowBuiltIn(!show);
 				});
 			}
 		});
@@ -337,19 +325,15 @@ public class RouterDependenciesEditor extends EditorPart implements
 		section.setClient(c);
 		toolkit.adapt(c);
 		c.addDependenciesChangedListener(this);
-		c.getTableViewer().addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-				int size = selection.size();
-				if(size == 0){
-					setStatus(""); //$NON-NLS-1$
-				}else if(selection.size()==1){
-					setStatus(((IDependencyItem)selection.getFirstElement()).getDescription());
-				}else{
-					setStatus(size+Messages.RouterDependenciesEditor_multiItemsSelectedStatusMsg);
-				}
+		c.getTableViewer().addSelectionChangedListener(event->{
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+			int size = selection.size();
+			if(size == 0){
+				setStatus(""); //$NON-NLS-1$
+			}else if(selection.size()==1){
+				setStatus(((IDependencyItem)selection.getFirstElement()).getDescription());
+			}else{
+				setStatus(size+Messages.RouterDependenciesEditor_multiItemsSelectedStatusMsg);
 			}
 		});
 		return c.getTableViewer();

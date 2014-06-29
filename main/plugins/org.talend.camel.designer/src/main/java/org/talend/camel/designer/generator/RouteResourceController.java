@@ -363,13 +363,9 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
      */
     @Override
     public int estimateRowSize(Composite subComposite, IElementParameter param) {
-        final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER, new IControlCreator() {
-
-            public Control createControl(Composite parent, int style) {
-                return getWidgetFactory().createButton(parent, EParameterName.ROUTE_RESOURCE_TYPE.getDisplayName(), SWT.None);
-            }
-
-        });
+        final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER,
+        	(Composite parent, int style)->getWidgetFactory().createButton(parent, EParameterName.ROUTE_RESOURCE_TYPE.getDisplayName(), SWT.None)
+        );
         Point initialSize = dField.getLayoutControl().computeSize(SWT.DEFAULT, SWT.DEFAULT);
         dField.getLayoutControl().dispose();
 
@@ -391,48 +387,38 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
 
     @Override
     public void refresh(final IElementParameter param, boolean check) {
-        new Thread() {
-
-            @Override
-            public void run() {
-
-                Display.getDefault().syncExec(new Runnable() {
-
-                    public void run() {
-                        updateContextList(param);
-                        if (hashCurControls == null) {
-                            return;
-                        }
-                        IElementParameter processTypeParameter = param.getChildParameters().get(
-                                EParameterName.ROUTE_RESOURCE_TYPE_ID.getName());
-                        String value = (String) processTypeParameter.getValue();
-
-                        if (value == null) {
-                            labelText.setText("");
-                        } else {
-                            IRepositoryViewObject lastVersion;
-                            try {
-                                lastVersion = ProxyRepositoryFactory.getInstance().getLastVersion(value);
-                                if (lastVersion == null) {
-                                    processTypeParameter.setValue(null);
-                                    labelText.setText("");
-                                } else {
-                                    resetTextValue(lastVersion.getProperty().getItem());
-                                    // version
-                                    refreshCombo(param, EParameterName.ROUTE_RESOURCE_TYPE_VERSION.getName());
-                                }
-                            } catch (Exception e) {
-                            }
-                        }
-
-                        if (elem != null && elem instanceof Node) {
-                            ((Node) elem).checkAndRefreshNode();
-                        }
-                    }
-                });
-
+        new Thread(()->
+        Display.getDefault().syncExec(()-> {
+            updateContextList(param);
+            if (hashCurControls == null) {
+                return;
             }
-        }.start();
+            IElementParameter processTypeParameter = param.getChildParameters().get(
+                    EParameterName.ROUTE_RESOURCE_TYPE_ID.getName());
+            String value = (String) processTypeParameter.getValue();
+
+            if (value == null) {
+                labelText.setText("");
+            } else {
+                IRepositoryViewObject lastVersion;
+                try {
+                    lastVersion = ProxyRepositoryFactory.getInstance().getLastVersion(value);
+                    if (lastVersion == null) {
+                        processTypeParameter.setValue(null);
+                        labelText.setText("");
+                    } else {
+                        resetTextValue(lastVersion.getProperty().getItem());
+                        // version
+                        refreshCombo(param, EParameterName.ROUTE_RESOURCE_TYPE_VERSION.getName());
+                    }
+                } catch (Exception e) {
+                }
+            }
+
+            if (elem != null && elem instanceof Node) {
+                ((Node) elem).checkAndRefreshNode();
+            }
+        })).start();
 
     }
 

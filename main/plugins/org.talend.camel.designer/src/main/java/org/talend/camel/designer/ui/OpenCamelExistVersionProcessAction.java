@@ -145,34 +145,32 @@ public class OpenCamelExistVersionProcessAction extends EditCamelPropertiesActio
             for (int i = 0; i < unloadedNode.size(); i++) {
                 message = message + unloadedNode.get(i).getComponentName() + "\n";
             }
-            if (!CommonsPlugin.isHeadless() && PlatformUI.isWorkbenchRunning()) {
-                Display display = Display.getCurrent();
-                if (display == null) {
-                    display = Display.getDefault();
-                }
-                if (display != null) {
-                    final Display tmpDis = display;
-                    final String tmpMess = message;
-                    display.syncExec(new Runnable() {
-
-                        public void run() {
-                            Shell shell = null;
-                            final IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-                            if (activeWorkbenchWindow != null) {
-                                shell = activeWorkbenchWindow.getShell();
-                            } else {
-                                if (tmpDis != null) {
-                                    shell = tmpDis.getActiveShell();
-                                } else {
-                                    shell = new Shell();
-                                }
-                            }
-                            MessageDialog.openWarning(shell, "Warning", tmpMess);
-                        }
-                    });
-                }
-            }
-        }
+			if (!CommonsPlugin.isHeadless() && PlatformUI.isWorkbenchRunning()) {
+				Display display = Display.getCurrent();
+				if (display == null) {
+					display = Display.getDefault();
+				}
+				if (display != null) {
+					final Display tmpDis = display;
+					final String tmpMess = message;
+					display.syncExec(() -> {
+						Shell shell = null;
+						final IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow();
+						if (activeWorkbenchWindow != null) {
+							shell = activeWorkbenchWindow.getShell();
+						} else {
+							if (tmpDis != null) {
+								shell = tmpDis.getActiveShell();
+							} else {
+								shell = new Shell();
+							}
+						}
+						MessageDialog.openWarning(shell, "Warning", tmpMess);
+					});
+				}
+			}
+		}
     }
 
     // http://jira.talendforge.org/browse/TESB-5930

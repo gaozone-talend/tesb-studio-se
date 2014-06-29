@@ -20,7 +20,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.fieldassist.DecoratedField;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
-import org.eclipse.jface.fieldassist.IControlCreator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -217,13 +216,9 @@ public class RouteComponentController extends AbstractElementPropertySectionCont
      */
     @Override
     public int estimateRowSize(Composite subComposite, IElementParameter param) {
-        final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER, new IControlCreator() {
-
-            public Control createControl(Composite parent, int style) {
-                return getWidgetFactory().createButton(parent, EParameterName.ROUTE_COMPONENT_TYPE.getDisplayName(), SWT.None);
-            }
-
-        });
+        final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER, 
+        		(Composite parent, int style)-> getWidgetFactory().createButton(parent, EParameterName.ROUTE_COMPONENT_TYPE.getDisplayName(), SWT.None)
+        		);
         Point initialSize = dField.getLayoutControl().computeSize(SWT.DEFAULT, SWT.DEFAULT);
         dField.getLayoutControl().dispose();
 
@@ -245,53 +240,45 @@ public class RouteComponentController extends AbstractElementPropertySectionCont
 
     @Override
     public void refresh(final IElementParameter param, boolean check) {
-        new Thread() {
+        new Thread(()->{
+            Display.getDefault().syncExec(()->{
+                if (hashCurControls == null) {
+                    return;
+                }
 
-            @Override
-            public void run() {
-
-                Display.getDefault().syncExec(new Runnable() {
-
-                    public void run() {
-                        if (hashCurControls == null) {
-                            return;
-                        }
-
-                        IElementParameter param = elem.getElementParameter(EParameterName.ROUTE_COMPONENT_TYPE_ID.getName());
-                        String value = (String) param.getValue();
-                        if (value == null) {
-                            labelText.setText("");
-                            param.setValue("");
-                        } else {
-                            boolean has = false;
-                            INode node = (INode) elem;
-                            List<? extends INode> graphicalNodes = node.getProcess().getGraphicalNodes();
-                            for (INode n : graphicalNodes) {
-                                if (n.getUniqueName().equals(value)) {
-                                    // check validate again by filter.
-                                    if (validateNodeByFilter(n, elem, curParameter.getListItemsValue())) {
-                                        labelText.setText(n.getLabel());
-                                        has = true;
-                                    }
-                                    break;
-                                }
+                IElementParameter typeIdParam = elem.getElementParameter(EParameterName.ROUTE_COMPONENT_TYPE_ID.getName());
+                String value = (String) typeIdParam.getValue();
+                if (value == null) {
+                    labelText.setText("");
+                    typeIdParam.setValue("");
+                } else {
+                    boolean has = false;
+                    INode node = (INode) elem;
+                    List<? extends INode> graphicalNodes = node.getProcess().getGraphicalNodes();
+                    for (INode n : graphicalNodes) {
+                        if (n.getUniqueName().equals(value)) {
+                            // check validate again by filter.
+                            if (validateNodeByFilter(n, elem, curParameter.getListItemsValue())) {
+                                labelText.setText(n.getLabel());
+                                has = true;
                             }
-                            if (!has) {
-                                labelText.setText("");
-                                param.setValue("");
-                            }
-
-                        }
-
-                        if (elem != null && elem instanceof Node) {
-                            Node sourceNode = (Node) elem;
-                            sourceNode.checkAndRefreshNode();
+                            break;
                         }
                     }
-                });
+                    if (!has) {
+                        labelText.setText("");
+                        typeIdParam.setValue("");
+                    }
 
-            }
-        }.start();
+                }
+
+                if (elem != null && elem instanceof Node) {
+                    Node sourceNode = (Node) elem;
+                    sourceNode.checkAndRefreshNode();
+                }
+            });
+
+        }).start();
 
     }
 
