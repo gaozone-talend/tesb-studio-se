@@ -98,7 +98,7 @@ public class ReadCamelProcess extends AbstractProcessAction {
             } else {
                 switch (node.getType()) {
                 case REPOSITORY_ELEMENT:
-                    if (node.getObjectType() != CamelRepositoryNodeType.repositoryRoutesType) {
+                    if (node.getObjectType() != CamelRepositoryNodeType.repositoryRoutesType()) {
                         canWork = false;
                     }
                     break;

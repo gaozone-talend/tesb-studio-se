@@ -184,7 +184,7 @@ public class OpenCamelExistVersionProcessAction extends EditCamelPropertiesActio
                 RepositoryNode node = (RepositoryNode) o;
                 switch (node.getType()) {
                 case REPOSITORY_ELEMENT:
-                    if (node.getObjectType() == CamelRepositoryNodeType.repositoryRoutesType) {
+                    if (node.getObjectType() == CamelRepositoryNodeType.repositoryRoutesType()) {
                         canWork = true;
                     } else {
                         canWork = false;

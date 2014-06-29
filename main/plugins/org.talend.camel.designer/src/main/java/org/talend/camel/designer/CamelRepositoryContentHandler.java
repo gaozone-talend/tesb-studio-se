@@ -64,7 +64,7 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
     }
 
     public boolean isRepObjType(ERepositoryObjectType type) {
-    	for(ERepositoryObjectType tmp: CamelRepositoryNodeType.AllRouteRespositoryTypes.keySet()){
+    	for(ERepositoryObjectType tmp: CamelRepositoryNodeType.AllRouteRespositoryTypes().keySet()){
 			if(type == tmp){
 				return true;
 			}
@@ -74,12 +74,12 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
 
     @Override
     public ERepositoryObjectType getProcessType() {
-        return CamelRepositoryNodeType.repositoryRoutesType;
+        return CamelRepositoryNodeType.repositoryRoutesType();
     }
 
     @Override
     public ERepositoryObjectType getCodeType() {
-        return CamelRepositoryNodeType.repositoryBeansType;
+        return CamelRepositoryNodeType.repositoryBeansType();
     }
 
     /*
@@ -93,19 +93,19 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
         Resource itemResource = null;
         ERepositoryObjectType type;
         if (item.eClass() == CamelPropertiesPackage.Literals.CAMEL_PROCESS_ITEM) {
-            type = CamelRepositoryNodeType.repositoryRoutesType;
+            type = CamelRepositoryNodeType.repositoryRoutesType();
             itemResource = create(project, (CamelProcessItem) item, path, type);
             Resource screenshotsResource = createScreenshotResource(project, item, path, type);
             xmiResourceManager.saveResource(screenshotsResource);
             return itemResource;
         }
         if (item.eClass() == CamelPropertiesPackage.Literals.BEAN_ITEM) {
-            type = CamelRepositoryNodeType.repositoryBeansType;
+            type = CamelRepositoryNodeType.repositoryBeansType();
             itemResource = create(project, (FileItem) item, path, type);
             return itemResource;
         }
         if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_RESOURCE_ITEM) {
-            type = CamelRepositoryNodeType.repositoryRouteResourceType;
+            type = CamelRepositoryNodeType.repositoryRouteResourceType();
             itemResource = create(project, (FileItem) item, path, type);
             return itemResource;
         }
@@ -183,11 +183,11 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
      */
     @Override
     public IImage getIcon(ERepositoryObjectType type) {
-        if (type == CamelRepositoryNodeType.repositoryRoutesType) {
+        if (type == CamelRepositoryNodeType.repositoryRoutesType()) {
             return ECamelCoreImage.ROUTES_ICON;
-        } else if (type == CamelRepositoryNodeType.repositoryBeansType) {
+        } else if (type == CamelRepositoryNodeType.repositoryBeansType()) {
             return ECamelCoreImage.BEAN_ICON;
-        } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType) {
+        } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType()) {
             return ECamelCoreImage.ROUTE_RESOURCE_ICON;
         }
         return null;
@@ -201,11 +201,11 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
      */
     public Item createNewItem(ERepositoryObjectType type) {
         Item item = null;
-        if (type == CamelRepositoryNodeType.repositoryRoutesType) {
+        if (type == CamelRepositoryNodeType.repositoryRoutesType()) {
             item = CamelPropertiesFactory.eINSTANCE.createCamelProcessItem();
-        } else if (type == CamelRepositoryNodeType.repositoryBeansType) {
+        } else if (type == CamelRepositoryNodeType.repositoryBeansType()) {
             item = CamelPropertiesFactory.eINSTANCE.createBeanItem();
-        } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType) {
+        } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType()) {
             item = CamelPropertiesFactory.eINSTANCE.createRouteResourceItem();
         }
         return item;
@@ -213,13 +213,13 @@ public class CamelRepositoryContentHandler extends AbstractRepositoryContentHand
 
     public ERepositoryObjectType getRepositoryObjectType(Item item) {
         if (item.eClass() == CamelPropertiesPackage.Literals.CAMEL_PROCESS_ITEM) {
-            return CamelRepositoryNodeType.repositoryRoutesType;
+            return CamelRepositoryNodeType.repositoryRoutesType();
         }
         if (item.eClass() == CamelPropertiesPackage.Literals.BEAN_ITEM) {
-            return CamelRepositoryNodeType.repositoryBeansType;
+            return CamelRepositoryNodeType.repositoryBeansType();
         }
         if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_RESOURCE_ITEM) {
-            return CamelRepositoryNodeType.repositoryRouteResourceType;
+            return CamelRepositoryNodeType.repositoryRouteResourceType();
         }
         return null;
     }

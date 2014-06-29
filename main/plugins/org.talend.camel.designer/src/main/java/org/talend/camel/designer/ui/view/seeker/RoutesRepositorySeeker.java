@@ -34,7 +34,7 @@ public class RoutesRepositorySeeker extends AbstractRepoViewSeeker {
     @Override
     protected List<ERepositoryObjectType> getValidationTypes() {
         List<ERepositoryObjectType> validationTypes = super.getValidationTypes();
-        validationTypes.add(CamelRepositoryNodeType.repositoryRoutesType);
+        validationTypes.add(CamelRepositoryNodeType.repositoryRoutesType());
         return validationTypes;
     }
 }

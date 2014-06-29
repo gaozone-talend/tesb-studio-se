@@ -95,9 +95,9 @@ public class EditCamelPropertiesAction extends EditPropertiesAction {
                 RepositoryNode node = (RepositoryNode) o;
                 switch (node.getType()) {
                 case REPOSITORY_ELEMENT:
-                    if (node.getObjectType() == CamelRepositoryNodeType.repositoryRoutesType) {
+                    if (node.getObjectType() == CamelRepositoryNodeType.repositoryRoutesType()) {
                         canWork = true;
-                    } else if (node.getObjectType() == CamelRepositoryNodeType.repositoryBeansType) {
+                    } else if (node.getObjectType() == CamelRepositoryNodeType.repositoryBeansType()) {
                         Item item = node.getObject().getProperty().getItem();
                         if (item instanceof BeanItem) {
                             canWork = true;

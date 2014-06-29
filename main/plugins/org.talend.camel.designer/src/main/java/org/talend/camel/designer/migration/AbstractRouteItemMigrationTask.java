@@ -47,7 +47,7 @@ public abstract class AbstractRouteItemMigrationTask extends
 	@Override
 	public final List<ERepositoryObjectType> getTypes() {
 		return Collections
-				.singletonList(CamelRepositoryNodeType.repositoryRoutesType);
+				.singletonList(CamelRepositoryNodeType.repositoryRoutesType());
 	}
 
 	protected void saveItem(Item item) throws PersistenceException {

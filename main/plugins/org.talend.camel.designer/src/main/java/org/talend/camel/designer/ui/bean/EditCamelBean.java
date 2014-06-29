@@ -68,7 +68,7 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
         }
         RepositoryNode node = (RepositoryNode) selection.getFirstElement();
         if (canWork) {
-            if (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType
+            if (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType()
                     || !ProjectManager.getInstance().isInCurrentMainProject(node) || !isLastVersion(node)) {
                 canWork = false;
             }

@@ -87,7 +87,7 @@ public class CreateCamelProcess extends CreateProcess implements IIntroAction {
     @Override
     public IRepositoryNode getProcessNode() {
         ERepositoryObjectType repositoryNodeType = ERepositoryObjectType.valueOf(ERepositoryObjectType.class,
-                CamelRepositoryNodeType.ROUTES);
+                CamelRepositoryNodeType.ROUTES());
         IRepositoryNode repositoryNode = ProjectRepositoryNode.getInstance().getRootRepositoryNode(repositoryNodeType);
 
         return repositoryNode;
@@ -169,7 +169,7 @@ public class CreateCamelProcess extends CreateProcess implements IIntroAction {
             case SIMPLE_FOLDER:
             case SYSTEM_FOLDER:
                 ERepositoryObjectType nodeType = (ERepositoryObjectType) node.getProperties(EProperties.CONTENT_TYPE);
-                if (nodeType != CamelRepositoryNodeType.repositoryRoutesType) {
+                if (nodeType != CamelRepositoryNodeType.repositoryRoutesType()) {
                     canWork = false;
                 }
                 if (node.getObject() != null && node.getObject().isDeleted()) {
@@ -227,9 +227,9 @@ public class CreateCamelProcess extends CreateProcess implements IIntroAction {
         IRepositoryView view = RepositoryManagerHelper.getRepositoryView();
         if (view != null) {
             Object type = params.get("type");
-            if (CamelRepositoryNodeType.repositoryRoutesType.name().equals(type)) {
+            if (CamelRepositoryNodeType.repositoryRoutesType().name().equals(type)) {
                 RepositoryNode processNode = ((ProjectRepositoryNode) view.getRoot())
-                        .getRootRepositoryNode(CamelRepositoryNodeType.repositoryRoutesType);
+                        .getRootRepositoryNode(CamelRepositoryNodeType.repositoryRoutesType());
 
                 if (processNode != null) {
                     setWorkbenchPart(view);

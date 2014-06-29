@@ -171,7 +171,7 @@ public class EditCamelProcess extends AbstractProcessAction implements IIntroAct
             } else{
 	            switch (node.getType()) {
 	            case REPOSITORY_ELEMENT:
-	                if (node.getObjectType() != CamelRepositoryNodeType.repositoryRoutesType) {
+	                if (node.getObjectType() != CamelRepositoryNodeType.repositoryRoutesType()) {
 	                    canWork = false;
 	                } else {
 	                    IRepositoryService service = DesignerPlugin.getDefault().getRepositoryService();
@@ -251,7 +251,7 @@ public class EditCamelProcess extends AbstractProcessAction implements IIntroAct
         this.params = params;
         PlatformUI.getWorkbench().getIntroManager().closeIntro(PlatformUI.getWorkbench().getIntroManager().getIntro());
         do_SwitchPerspective_ExpandRepositoryNode_SelectNodeItem(IBrandingConfiguration.PERSPECTIVE_CAMEL_ID,
-                CamelRepositoryNodeType.repositoryRoutesType, params.getProperty("nodeId"));
+                CamelRepositoryNodeType.repositoryRoutesType(), params.getProperty("nodeId"));
         doRun();
     }
 

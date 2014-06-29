@@ -40,7 +40,7 @@ public class Switch284CamelCXFLibraryVersionMigrationTask extends
 	@Override
 	public List<ERepositoryObjectType> getTypes() {
 		List<ERepositoryObjectType> toReturn = new ArrayList<ERepositoryObjectType>();
-		toReturn.add(CamelRepositoryNodeType.repositoryRoutesType);
+		toReturn.add(CamelRepositoryNodeType.repositoryRoutesType());
 		return toReturn;
 	}
 

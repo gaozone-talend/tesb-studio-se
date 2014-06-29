@@ -70,7 +70,7 @@ public class CamelNewBeanWizardPage extends PropertiesWizardPage {
     }
 
     public ERepositoryObjectType getRepositoryObjectType() {
-        return CamelRepositoryNodeType.repositoryBeansType;
+        return CamelRepositoryNodeType.repositoryBeansType();
     }
 
     /*

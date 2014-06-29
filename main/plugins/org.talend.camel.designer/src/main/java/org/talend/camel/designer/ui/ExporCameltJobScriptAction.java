@@ -66,7 +66,7 @@ public class ExporCameltJobScriptAction extends AContextualAction {
         }
         IRepositoryNode node = (IRepositoryNode) selection.getFirstElement();
         if (node.getType() == ENodeType.REPOSITORY_ELEMENT
-                && node.getProperties(EProperties.CONTENT_TYPE) == CamelRepositoryNodeType.repositoryRoutesType
+                && node.getProperties(EProperties.CONTENT_TYPE) == CamelRepositoryNodeType.repositoryRoutesType()
                 && ERepositoryStatus.DELETED != ProxyRepositoryFactory.getInstance().getStatus(node.getObject())) {
             shell = viewer.getTree().getShell();
             setEnabled(true);

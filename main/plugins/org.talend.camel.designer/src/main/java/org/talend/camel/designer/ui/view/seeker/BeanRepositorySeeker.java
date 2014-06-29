@@ -34,7 +34,7 @@ public class BeanRepositorySeeker extends AbstractCodeRepoViewSeeker {
     @Override
     protected List<ERepositoryObjectType> getValidationTypes() {
         List<ERepositoryObjectType> validationTypes = super.getValidationTypes();
-        validationTypes.add(CamelRepositoryNodeType.repositoryBeansType);
+        validationTypes.add(CamelRepositoryNodeType.repositoryBeansType());
         return validationTypes;
     }
 

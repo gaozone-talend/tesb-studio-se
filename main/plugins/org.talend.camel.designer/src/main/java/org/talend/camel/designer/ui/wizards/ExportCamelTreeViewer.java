@@ -237,7 +237,7 @@ public class ExportCamelTreeViewer extends ExportTreeViewer {
         if (contentType != null) {
 
             // Fix bug TESB-2939 LiXiaopeng
-            if (contentType == CamelRepositoryNodeType.repositoryRoutesType) { // referenced project.
+            if (contentType == CamelRepositoryNodeType.repositoryBeansType()) { // referenced project.
                 return true;
             } else if (contentType == ERepositoryObjectType.SVN_ROOT) {
                 return true;
@@ -258,7 +258,7 @@ public class ExportCamelTreeViewer extends ExportTreeViewer {
     @Override
     protected ERepositoryObjectType getCheckingType() {
         ERepositoryObjectType repositoryNodeType = (ERepositoryObjectType) ERepositoryObjectType.valueOf(
-                ERepositoryObjectType.class, CamelRepositoryNodeType.ROUTES);
+                ERepositoryObjectType.class, CamelRepositoryNodeType.ROUTES());
         return repositoryNodeType;
     }
 

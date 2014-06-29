@@ -184,7 +184,7 @@ public class RouteResourceSelectionDialog extends Dialog {
 	private IRepositoryNode getInput() {
 
 		List<ERepositoryObjectType> types = new ArrayList<ERepositoryObjectType>();
-		types.add(CamelRepositoryNodeType.repositoryRouteResourceType);
+		types.add(CamelRepositoryNodeType.repositoryRouteResourceType());
 		IRepositoryNode root = RecombineRepositoryNodeUtil
 				.getFixingTypesInputRoot(ProjectRepositoryNode.getInstance(),
 						types);
@@ -213,7 +213,7 @@ public class RouteResourceSelectionDialog extends Dialog {
 				highlightOKButton = false;
 			}
 			if (object != null
-					&& object.getRepositoryObjectType() != CamelRepositoryNodeType.repositoryRouteResourceType) {
+					&& object.getRepositoryObjectType() != CamelRepositoryNodeType.repositoryRouteResourceType()) {
 				highlightOKButton = false;
 			}
 
@@ -245,7 +245,7 @@ public class RouteResourceSelectionDialog extends Dialog {
 	private void selectNode() {
 		RepositoryNode root = (RepositoryNode) getRepositoryTreeViewer()
 				.getInput();
-		selectNode(root, CamelRepositoryNodeType.repositoryRouteResourceType,
+		selectNode(root, CamelRepositoryNodeType.repositoryRouteResourceType(),
 				this.selectedNodeId, true);
 	}
 

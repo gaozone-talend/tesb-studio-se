@@ -73,7 +73,7 @@ public class CamelDesignerCoreService implements ICamelDesignerCoreService {
 	}
 
 	public String getDeleteFolderName(ERepositoryObjectType type){
-		return CamelRepositoryNodeType.AllRouteRespositoryTypes.get(type);
+		return CamelRepositoryNodeType.AllRouteRespositoryTypes().get(type);
 	}
 	/*
 	 * (non-Jsdoc)
@@ -88,15 +88,15 @@ public class CamelDesignerCoreService implements ICamelDesignerCoreService {
 	}
 
 	public ERepositoryObjectType getRoutes() {
-		return CamelRepositoryNodeType.repositoryRoutesType;
+		return CamelRepositoryNodeType.repositoryRoutesType();
 	}
 
 	public ERepositoryObjectType getBeansType() {
-		return CamelRepositoryNodeType.repositoryBeansType;
+		return CamelRepositoryNodeType.repositoryBeansType();
 	}
 	
 	public ERepositoryObjectType getResourcesType() {
-		return CamelRepositoryNodeType.repositoryRouteResourceType;
+		return CamelRepositoryNodeType.repositoryRouteResourceType();
 	}
 
 	public ProcessType getCamelProcessType(Item item) {

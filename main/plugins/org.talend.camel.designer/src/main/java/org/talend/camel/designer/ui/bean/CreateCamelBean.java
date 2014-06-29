@@ -92,7 +92,7 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
             case SIMPLE_FOLDER:
             case SYSTEM_FOLDER:
                 ERepositoryObjectType nodeType = (ERepositoryObjectType) node.getProperties(EProperties.CONTENT_TYPE);
-                if (nodeType != CamelRepositoryNodeType.repositoryBeansType) {
+                if (nodeType != CamelRepositoryNodeType.repositoryBeansType()) {
                     canWork = false;
                 }
                 if (node.getObject() != null && node.getObject().isDeleted()) {
@@ -121,11 +121,11 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         RepositoryNode beanNode = getCurrentRepositoryNode();
 
         if (isToolbar()) {
-            if (beanNode != null && beanNode.getContentType() != CamelRepositoryNodeType.repositoryBeansType) {
+            if (beanNode != null && beanNode.getContentType() != CamelRepositoryNodeType.repositoryBeansType()) {
                 beanNode = null;
             }
             if (beanNode == null) {
-                beanNode = getRepositoryNodeForDefault(CamelRepositoryNodeType.repositoryBeansType);
+                beanNode = getRepositoryNodeForDefault(CamelRepositoryNodeType.repositoryBeansType());
             }
         }
         RepositoryNode node = null;
@@ -168,7 +168,7 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         IRepositoryView view = RepositoryManagerHelper.getRepositoryView();
         if (view != null) {
             Object type = params.get("type");
-            if (CamelRepositoryNodeType.repositoryBeansType.name().equals(type)) {
+            if (CamelRepositoryNodeType.repositoryBeansType().name().equals(type)) {
                 IRepositoryNode processNode = ((ProjectRepositoryNode) view.getRoot())
                         .getRootRepositoryNode(ERepositoryObjectType.PROCESS);
                 if (processNode != null) {

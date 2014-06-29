@@ -31,7 +31,6 @@ import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.repository.i18n.Messages;
 import org.talend.repository.model.IProxyRepositoryService;
 import org.talend.repository.ui.wizards.PropertiesWizardPage;
-import org.talend.repository.ui.wizards.routines.EditRoutinePropertiesWizard;
 
 /**
  * DOC zwzhao class global comment. Detailled comment
@@ -122,6 +121,6 @@ public class EditRoutePropertiesWizardPage extends PropertiesWizardPage {
     @Override
     public ERepositoryObjectType getRepositoryObjectType() {
         // TODO Auto-generated method stub
-        return CamelRepositoryNodeType.repositoryRoutesType;
+        return CamelRepositoryNodeType.repositoryRoutesType();
     }
 }

@@ -93,7 +93,7 @@ public class ReadCamelBean extends AbstractBeanAction {// AbstractProcessAction
             RepositoryNode node = (RepositoryNode) o;
             switch (node.getType()) {
             case REPOSITORY_ELEMENT:
-                if (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType) {
+                if (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType()) {
                     canWork = false;
                 }
                 break;

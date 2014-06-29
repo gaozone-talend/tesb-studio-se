@@ -75,7 +75,7 @@ public class CamelNewProcessWizardPage extends PropertiesWizardPage {
     }
 
     public ERepositoryObjectType getRepositoryObjectType() {
-        return CamelRepositoryNodeType.repositoryRoutesType;
+        return CamelRepositoryNodeType.repositoryRoutesType();
     }
 
     /*
