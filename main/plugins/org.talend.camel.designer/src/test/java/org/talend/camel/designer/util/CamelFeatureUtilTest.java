@@ -27,12 +27,13 @@ public class CamelFeatureUtilTest {
 		printGetNameWithoutVersion("-test-test-test-tes-t-.jar");
 	}
 
-	
 	private static void printGetNameWithoutVersion(String libraryName) throws Exception {
 		
 		Method method = CamelFeatureUtil.class.getDeclaredMethod("getNameWithoutVersion", String.class);
 		method.setAccessible(true);
 		Object rst = method.invoke(null, libraryName);
 		System.out.println(libraryName+"→"+rst);
+		String rst2 = CamelFeatureUtil2.getNameWithoutVersion(libraryName);
+		System.out.println(libraryName+"→"+rst2);
 	}
 }
