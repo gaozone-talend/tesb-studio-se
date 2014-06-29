@@ -41,6 +41,6 @@ public class RoutesNodeTester extends AbstractNodeTester {
     }
 
     public boolean isRoutesTopNode(RepositoryNode repositoryNode) {
-        return isTypeNode(repositoryNode, CamelRepositoryNodeType.repositoryRoutesType);
+        return isTypeNode(repositoryNode, CamelRepositoryNodeType.repositoryRoutesType());
     }
 }

@@ -28,6 +28,6 @@ public class RoutesContentProvider extends ProjectRepoDirectChildrenNodeContentP
      */
     @Override
     protected RepositoryNode getTopLevelNodeFromProjectRepositoryNode(ProjectRepositoryNode projectNode) {
-        return projectNode.getRootRepositoryNode(CamelRepositoryNodeType.repositoryRoutesType);
+        return projectNode.getRootRepositoryNode(CamelRepositoryNodeType.repositoryRoutesType());
     }
 }

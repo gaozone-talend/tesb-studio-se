@@ -28,6 +28,6 @@ public class BeansContentProvider extends AbstractCodeContentProvider {
      */
     @Override
     protected RepositoryNode getTopLevelNodeFromProjectRepositoryNode(ProjectRepositoryNode projectNode) {
-        return projectNode.getRootRepositoryNode(CamelRepositoryNodeType.repositoryBeansType);
+        return projectNode.getRootRepositoryNode(CamelRepositoryNodeType.repositoryBeansType());
     }
 }

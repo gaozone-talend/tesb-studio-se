@@ -42,6 +42,6 @@ public class RouteResourceNodeTester extends AbstractNodeTester {
 
 	public boolean isRouteResourceNode(RepositoryNode repositoryNode) {
 		return isTypeNode(repositoryNode,
-				CamelRepositoryNodeType.repositoryRouteResourceType);
+				CamelRepositoryNodeType.repositoryRouteResourceType());
     }
 }

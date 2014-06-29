@@ -41,7 +41,7 @@ public class BeansNodeTester extends AbstractNodeTester {
     }
 
     public boolean isBeans(RepositoryNode repositoryNode) {
-        return isTypeNode(repositoryNode, CamelRepositoryNodeType.repositoryBeansType);
+        return isTypeNode(repositoryNode, CamelRepositoryNodeType.repositoryBeansType());
     }
 
 }
