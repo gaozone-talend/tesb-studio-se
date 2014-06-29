@@ -1,3 +1,7 @@
 .settings
 target
 bin
+classes
+class
+*/*.class
+.cache
