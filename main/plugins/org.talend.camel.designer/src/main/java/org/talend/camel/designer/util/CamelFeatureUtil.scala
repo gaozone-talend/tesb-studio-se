@@ -73,7 +73,7 @@ object CamelFeatureUtil {
 		def removeVersionPart(lib: String): String = {
 			val lastIndexOf = lib.lastIndexOf('-')
 			if (lastIndexOf == -1) return lib
-			val shorter = lib.substring(0,lastIndexOf)
+			val shorter = lib.substring(0, lastIndexOf)
 			val followChar = lib.charAt(lastIndexOf + 1)
 			val isFollowNum = followChar >= '0' && followChar <= '9'
 			if (isFollowNum) return shorter
@@ -101,9 +101,10 @@ object CamelFeatureUtil {
 
 	private def handleJmsConnectionFactory(features: Iterable[FeatureModel], currentNode: NodeType) = {
 		val isActiveMQ = currentNode \\ "MQ_TYPE" \== "ActiveMQ"
-		if (!isActiveMQ) None
-		val useHttpBroker = currentNode \\ "IS_AMQ_HTTP_BROKER" \ Boolean
-		if (useHttpBroker) features.add(FEATURE_ACTIVEMQ_OPTIONAL)
+		if (isActiveMQ) {
+			val useHttpBroker = currentNode \\ "IS_AMQ_HTTP_BROKER" \ Boolean
+			if (useHttpBroker) features.add(FEATURE_ACTIVEMQ_OPTIONAL)
+		}
 	}
 
 	private def addConnectionsSpecialFeatures(features: Iterable[FeatureModel], processType: ProcessType) = {
@@ -149,9 +150,13 @@ object CamelFeatureUtil {
 	protected def handleSetHeaderCase(features: Iterable[FeatureModel], currentNode: NodeType) = {
 		val values = currentNode \\ "VALUES"
 		val exists = (values.getElementValue().toTraversable).exists(v => {
-			if (!v.isInstanceOf[ElementValueType]) false
-			val evt = v.asInstanceOf[ElementValueType]
-			"LANGUAGE" == evt.getElementRef() && JAVA_SCRIPT == evt.getValue()
+			if (v.isInstanceOf[ElementValueType]) {
+				val evt = v.asInstanceOf[ElementValueType]
+				"LANGUAGE" == evt.getElementRef() && JAVA_SCRIPT == evt.getValue()
+			}else {
+				false
+			}
+				
 		})
 		if (exists) features.add(FEATURE_CAMEL_SCRIPT_JAVASCRIPT)
 	}
@@ -183,16 +188,17 @@ object CamelFeatureUtil {
 	 * Add feature and bundle to Feature Model
 	 */
 	def addFeatureAndBundles(node: IRepositoryNode, featuresModel: FeaturesModel) = {
-		if (!checkNode(Option(node))) None
-		val property = node.getObject().getProperty()
-		val process = new RouteProcess(property)
-		process.loadXmlFile()
+		if (checkNode(Option(node))) {
+			val property = node.getObject().getProperty()
+			val process = new RouteProcess(property)
+			process.loadXmlFile()
 
-		val neededLibraries = process.getNeededLibraries(true)
-		val processType = property.getItem().asInstanceOf[ProcessItem]
-		val features = getFeaturesOfRoute(neededLibraries, (processType.getProcess()))
-		features.foreach(featuresModel.addFeature(_))
-		process.dispose()
+			val neededLibraries = process.getNeededLibraries(true)
+			val processType = property.getItem().asInstanceOf[ProcessItem]
+			val features = getFeaturesOfRoute(neededLibraries, (processType.getProcess()))
+			features.foreach(featuresModel.addFeature(_))
+			process.dispose()
+		}
 	}
 
 	def getMavenGroupId(item: Item): String = {
