@@ -12,6 +12,9 @@
 // ============================================================================
 package org.talend.camel.designer.ui.bean;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -37,77 +40,53 @@ import org.talend.repository.ui.actions.AContextualAction;
  */
 public abstract class AbstractBeanAction extends AContextualAction {
 
-//    protected RepositoryNode repositoryNode;
+	@Override
+	public void init(TreeViewer viewer, IStructuredSelection selection) {
+		setEnabled(false);
+		Object o = selection.getFirstElement();
+		if (selection.isEmpty() || selection.size() != 1 || !(o instanceof RepositoryNode)) {
+			return;
+		}
+		repositoryNode = (RepositoryNode) o;
+	}
 
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.talend.commons.ui.swt.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
-    public void init(TreeViewer viewer, IStructuredSelection selection) {
-        setEnabled(false);
-        Object o = selection.getFirstElement();
-        if (selection.isEmpty() || selection.size() != 1 || !(o instanceof RepositoryNode)) {
-            return;
-        }
-        repositoryNode = (RepositoryNode) o;
-    }
+	public IEditorPart openBeanEditor(BeanItem beanItem, boolean readOnly) throws SystemException, PartInitException {
+		if (beanItem == null) {
+			return null;
+		}
+		ICodeGeneratorService service = (ICodeGeneratorService) GlobalServiceRegister.getDefault().getService(
+				ICodeGeneratorService.class);
 
-    public IEditorPart openBeanEditor(BeanItem beanItem, boolean readOnly) throws SystemException, PartInitException {
-        if (beanItem == null) {
-            return null;
-        }
-        ICodeGeneratorService service = (ICodeGeneratorService) GlobalServiceRegister.getDefault().getService(
-                ICodeGeneratorService.class);
+		ECodeLanguage lang = ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY))
+				.getProject().getLanguage();
+		ITalendSynchronizer routineSynchronizer = service.createCamelBeanSynchronizer();
 
-        ECodeLanguage lang = ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY))
-                .getProject().getLanguage();
-        ITalendSynchronizer routineSynchronizer = service.createCamelBeanSynchronizer();
+		// check if the related editor is open.
+		IWorkbenchPage page = getActivePage();
 
-        // check if the related editor is open.
-        IWorkbenchPage page = getActivePage();
+		String talendEditorID = "org.talend.designer.core.ui.editor.StandAloneTalend" + lang.getCaseName() + "Editor"; //$NON-NLS-1$ //$NON-NLS-2$
 
-        IEditorReference[] editorParts = page.getEditorReferences();
-        String talendEditorID = "org.talend.designer.core.ui.editor.StandAloneTalend" + lang.getCaseName() + "Editor"; //$NON-NLS-1$ //$NON-NLS-2$
-        boolean found = false;
-        IEditorPart talendEditor = null;
-        for (IEditorReference reference : editorParts) {
-            IEditorPart editor = reference.getEditor(false);
-            if (talendEditorID.equals(editor.getSite().getId())) {
-                // TextEditor talendEditor = (TextEditor) editor;
-                RepositoryEditorInput editorInput = (RepositoryEditorInput) editor.getEditorInput();
-                if (editorInput.getItem().equals(beanItem)) {
-                    page.bringToTop(editor);
-                    found = true;
-                    talendEditor = editor;
-                    break;
-                }
-            }
-        }
+		IEditorReference[] editorParts = page.getEditorReferences();
+		Optional<IEditorPart> editorOp = Arrays.stream(editorParts)
+				.map(r->r.getEditor(false))
+				.filter((IEditorPart editor)->{
+					if (talendEditorID.equals(editor.getSite().getId())) {
+						RepositoryEditorInput editorInput = (RepositoryEditorInput) editor.getEditorInput();
+						return editorInput.getItem().equals(beanItem);
+					}
+					return false;
+				}).findFirst();
 
-        if (!found) {
-            routineSynchronizer.syncBean(beanItem, true);
-            IFile file = routineSynchronizer.getFile(beanItem);
+		editorOp.ifPresent(e->page.bringToTop(e));
+		if(editorOp.isPresent()) {
+			return editorOp.get();
+		}
 
-            RepositoryEditorInput input = new BeanEditorInput(file, beanItem);
-            input.setReadOnly(readOnly);
-            talendEditor = page.openEditor(input, talendEditorID); //$NON-NLS-1$            
-        }
+		routineSynchronizer.syncBean(beanItem, true);
+		IFile file = routineSynchronizer.getFile(beanItem);
 
-        return talendEditor;
-
-    }
-
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.talend.repository.ui.actions.AContextualAction#doRun()
-     */
-    @Override
-    protected void doRun() {
-        // TODO Auto-generated method stub
-
-    }
-
+		RepositoryEditorInput input = new BeanEditorInput(file, beanItem);
+		input.setReadOnly(readOnly);
+		return page.openEditor(input, talendEditorID);
+	}
 }
