@@ -4,6 +4,8 @@ import java.util.List
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType
 import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType
 import org.talend.designer.core.model.utils.emf.talendfile.ConnectionType
+import org.talend.core.model.process.INode
+
 object ParameterVisitHelper {
 
 	implicit class NodeTypeHelper(n: NodeType) {
@@ -30,6 +32,16 @@ object ParameterVisitHelper {
 			(n \\ (paramName)).getValue()
 		}
 
+	}
+
+	implicit class INodeHelper(n: INode) {
+		def \\(param: String) = n.getElementParameter(param)
+
+		def \\~(paramName: String): Object = {
+			val param = n \\ paramName
+			if(param == null) null
+			else param.getValue()
+		}
 	}
 
 	//ConnectionType.getElementParameter()
