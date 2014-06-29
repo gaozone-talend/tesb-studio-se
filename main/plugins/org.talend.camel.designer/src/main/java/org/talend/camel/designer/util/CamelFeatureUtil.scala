@@ -32,7 +32,7 @@ import org.talend.designer.core.model.components.EParameterName
 /**
  *  http://jira.talendforge.org/browse/TESB-5375
  */
-object CamelFeatureUtil2 {
+object CamelFeatureUtil {
 
 	private val MAPPING_XML_FILE = "CamelFeatures.xml"
 	private val CAMEL_VERSION_RANGE = "[2,5)"
@@ -69,20 +69,19 @@ object CamelFeatureUtil2 {
 	}
 
 	def getNameWithoutVersion(libraryName: String): String = {
-		if (libraryName == null || libraryName.isEmpty() || !libraryName.endsWith(".jar")) {
-			libraryName
-		}
-
 		@tailrec
 		def removeVersionPart(lib: String): String = {
 			val lastIndexOf = lib.lastIndexOf('-')
-			if (lastIndexOf == -1) lib
+			if (lastIndexOf == -1) return lib
+			val shorter = lib.substring(0,lastIndexOf)
 			val followChar = lib.charAt(lastIndexOf + 1)
 			val isFollowNum = followChar >= '0' && followChar <= '9'
-			if (isFollowNum) lib
-			removeVersionPart(lib.substring(0, lastIndexOf))
+			if (isFollowNum) return shorter
+			removeVersionPart(shorter)
 		}
-		removeVersionPart(libraryName)
+
+		if (libraryName == null || libraryName.isEmpty() || !libraryName.endsWith(".jar")) libraryName
+		else removeVersionPart(libraryName)
 	}
 
 	private def getFeaturesOfRoute(neededLibraries: Iterable[String], processType: ProcessType): Iterable[FeatureModel] = {
