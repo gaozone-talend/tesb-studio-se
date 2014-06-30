@@ -12,35 +12,37 @@
 // ============================================================================
 package org.talend.camel.designer.util;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.talend.core.model.repository.ERepositoryObjectType;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * DOC guanglong.du class global comment. Detailled comment
  */
 public interface CamelRepositoryNodeType {
 
-    String ROUTES = "ROUTES";
+	String ROUTES = "ROUTES";
 
-    String BEANS = "BEANS";
+	String BEANS = "BEANS";
 
 	String ROUTE_RESOURCES = "ROUTE_RESOURCES";
 
-    ERepositoryObjectType repositoryRoutesType = (ERepositoryObjectType) ERepositoryObjectType.valueOf(
-            ERepositoryObjectType.class, ROUTES);
+	ERepositoryObjectType repositoryRoutesType = getType(ROUTES);
 
-    ERepositoryObjectType repositoryBeansType = (ERepositoryObjectType) ERepositoryObjectType.valueOf(
-            ERepositoryObjectType.class, BEANS);
+	ERepositoryObjectType repositoryBeansType =getType(BEANS);
 
-	ERepositoryObjectType repositoryRouteResourceType = (ERepositoryObjectType) ERepositoryObjectType
-			.valueOf(ERepositoryObjectType.class, ROUTE_RESOURCES);
-	
-	//repository type and folder name Map
-	Map<ERepositoryObjectType, String> AllRouteRespositoryTypes = new HashMap<ERepositoryObjectType, String>(){{
-		put(repositoryBeansType, "Bean");
-		put(repositoryRouteResourceType, "Resource");
-		put(repositoryRoutesType, "Route");
-	}};
+	ERepositoryObjectType repositoryRouteResourceType = getType(ROUTE_RESOURCES);
+
+	// repository type and folder name Map
+	Map<ERepositoryObjectType, String> AllRouteRespositoryTypes = ImmutableMap.of(
+			repositoryBeansType, "Bean",
+			repositoryRouteResourceType, "Resource",
+			repositoryRoutesType, "Route");
+
+	static ERepositoryObjectType getType(String key) {
+		return ERepositoryObjectType.valueOf(
+				ERepositoryObjectType.class, key);
+	}
 }

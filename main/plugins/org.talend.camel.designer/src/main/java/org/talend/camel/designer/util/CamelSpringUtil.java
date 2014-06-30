@@ -1,8 +1,7 @@
 package org.talend.camel.designer.util;
 
 import java.io.InputStream;
-import java.util.Scanner;
-
+import org.apache.commons.io.IOUtils;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 
 public class CamelSpringUtil {
@@ -17,20 +16,19 @@ public class CamelSpringUtil {
 			TMP_SPRING_CONTENT = getTmpSpringContent();
 		}
 
-		return TMP_SPRING_CONTENT.replace("${RouteItemName}", item
-				.getProperty().getLabel());
+		return TMP_SPRING_CONTENT.replace("${RouteItemName}", item.getProperty().getLabel());
 	}
 
 	private static String getTmpSpringContent() {
+		InputStream is = null;
 		try {
-			InputStream is = CamelSpringUtil.class
-					.getResourceAsStream("spring.xml");
-			String defaultContent = new Scanner(is).useDelimiter("\\A").next();
-			is.close();
-			return defaultContent;
+			is = CamelSpringUtil.class.getResourceAsStream("spring.xml");
+			return IOUtils.toString(is);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "";
+		} finally {
+			IOUtils.closeQuietly(is);
 		}
 	}
 }

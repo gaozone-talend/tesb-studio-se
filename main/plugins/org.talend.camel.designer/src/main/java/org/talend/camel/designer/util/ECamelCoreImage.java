@@ -19,35 +19,37 @@ import org.talend.commons.ui.runtime.image.IImage;
  */
 public enum ECamelCoreImage implements IImage {
 	ROUTE_RESOURCE_ICON("/icons/route-resource.png"), //$NON-NLS-1$
-    BEAN_ICON("/icons/bean.gif"), //$NON-NLS-1$
-    ROUTES_ICON("/icons/routes_icon.png"), //$NON-NLS-1$
-    BEAN_WIZ("/icons/bean_wiz.png");
+	BEAN_ICON("/icons/bean.gif"), //$NON-NLS-1$
+	ROUTES_ICON("/icons/routes_icon.png"), //$NON-NLS-1$
+	BEAN_WIZ("/icons/bean_wiz.png");
 
-    private String path;
+	private String path;
 
-    ECamelCoreImage() {
-        this.path = "/icons/unknown.gif"; //$NON-NLS-1$
-    }
+	ECamelCoreImage() {
+		this.path = "/icons/unknown.gif"; //$NON-NLS-1$
+	}
 
-    ECamelCoreImage(String path) {
-        this.path = path;
-    }
+	ECamelCoreImage(String path) {
+		this.path = path;
+	}
 
-    /**
-     * Getter for path.
-     * 
-     * @return the path
-     */
-    public String getPath() {
-        return this.path;
-    }
+	/**
+	 * Getter for path.
+	 *
+	 * @return the path
+	 */
+	@Override
+	public String getPath() {
+		return this.path;
+	}
 
-    /**
-     * Getter for clazz.
-     * 
-     * @return the clazz
-     */
-    public Class getLocation() {
-        return ECamelCoreImage.class;
-    }
+	/**
+	 * Getter for clazz.
+	 *
+	 * @return the clazz
+	 */
+	@Override
+	public Class<ECamelCoreImage> getLocation() {
+		return ECamelCoreImage.class;
+	}
 }
