@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.talend.model
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: J2SE-1.8
 Bundle-Vendor: %providerName
 Export-Package: org.talend.camel.core.model.camelProperties,
  org.talend.camel.core.model.camelProperties.impl,
